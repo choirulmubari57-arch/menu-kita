@@ -10,12 +10,12 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-aut
 
 // ⚠️ GANTI dengan konfigurasi Firebase Anda
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT_ID.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyARoy4OI_kCHa0IaV0nMoCOoJoWQ8Zbc_0",
+  authDomain: "menu-299e2.firebaseapp.com",
+  projectId: "menu-299e2",
+  storageBucket: "menu-299e2.firebasestorage.app",
+  messagingSenderId: "927331286067",
+  appId: "1:927331286067:web:d14b027126801ed5c9b746"
 };
 
 // Inisialisasi Firebase
