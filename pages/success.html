@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pesanan Berhasil — DapurKita</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+
+  <link rel="stylesheet" href="../css/customer.css" />
+</head>
+<body>
+
+  <main class="success-page">
+
+    <!-- Animasi sukses -->
+    <div class="success-anim">🎉</div>
+
+    <h1 class="success-title">Pesanan Diterima!</h1>
+
+    <p class="success-sub">
+      Terima kasih telah memesan di DapurKita.<br />
+      Pesananmu sedang kami proses. Kami akan segera menghubungimu via WhatsApp.
+    </p>
+
+    <!-- Order ID -->
+    <div class="success-order-id">
+      Nomor Pesananmu
+      <strong id="displayOrderId">—</strong>
+    </div>
+
+    <!-- Tombol kembali -->
+    <a href="../index.html" class="btn-home">
+      <i class="ph ph-house"></i>
+      Kembali ke Menu
+    </a>
+
+  </main>
+
+  <script>
+    // Ambil orderId dari URL parameter
+    const params  = new URLSearchParams(window.location.search);
+    const orderId = params.get("orderId");
+
+    const displayEl = document.getElementById("displayOrderId");
+
+    if (orderId && displayEl) {
+      // Tampilkan 8 karakter terakhir sebagai nomor order
+      displayEl.textContent = "#" + orderId.slice(-8).toUpperCase();
+    } else if (displayEl) {
+      displayEl.textContent = "—";
+    }
+  </script>
+
+</body>
+</html>
