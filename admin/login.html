@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Login — DapurKita</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+
+  <link rel="stylesheet" href="../css/admin.css" />
+</head>
+<body>
+
+  <div class="login-page">
+    <div class="login-card">
+
+      <div class="login-logo">🍜</div>
+      <h1 class="login-title">DapurKita Admin</h1>
+      <p class="login-sub">Masuk untuk mengelola pesanan</p>
+
+      <div class="form-group">
+        <label for="inputEmail" class="form-label">Email</label>
+        <input
+          type="email"
+          id="inputEmail"
+          class="form-control"
+          placeholder="admin@dapurkita.com"
+          autocomplete="email"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="inputPassword" class="form-label">Password</label>
+        <input
+          type="password"
+          id="inputPassword"
+          class="form-control"
+          placeholder="••••••••"
+          autocomplete="current-password"
+        />
+      </div>
+
+      <button class="btn-login" id="btnLogin">
+        Masuk
+      </button>
+
+      <div class="login-error hidden" id="loginError"></div>
+
+    </div>
+  </div>
+
+  <script type="module">
+    // ============================================================
+    // Admin Login dengan Firebase Authentication
+    // ============================================================
+    import { auth } from "../firebase.js";
+    import {
+      signInWithEmailAndPassword,
+      onAuthStateChanged,
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+
+    const btnLogin    = document.getElementById("btnLogin");
+    const inputEmail  = document.getElementById("inputEmail");
+    const inputPass   = document.getElementById("inputPassword");
+    const loginError  = document.getElementById("loginError");
+
+    // Jika sudah login, langsung redirect ke dashboard
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        window.location.href = "index.html";
+      }
+    });
+
+    // Handle login
+    btnLogin.addEventListener("click", async () => {
+      const email    = inputEmail.value.trim();
+      const password = inputPass.value;
+
+      if (!email || !password) {
+        showError("Email dan password wajib diisi!");
+        return;
+      }
+
+      btnLogin.disabled     = true;
+      btnLogin.textContent  = "Memproses...";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        // Redirect ditangani oleh onAuthStateChanged
+      } catch (error) {
+        console.error("Login error:", error.code);
+
+        const messages = {
+          "auth/user-not-found":    "Akun tidak ditemukan",
+          "auth/wrong-password":    "Password salah",
+          "auth/invalid-email":     "Format email tidak valid",
+          "auth/too-many-requests": "Terlalu banyak percobaan. Coba lagi nanti.",
+          "auth/invalid-credential":"Email atau password salah",
+        };
+
+        showError(messages[error.code] || "Login gagal. Periksa kembali data Anda.");
+      } finally {
+        btnLogin.disabled    = false;
+        btnLogin.textContent = "Masuk";
+      }
+    });
+
+    // Enter key support
+    inputPass.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") btnLogin.click();
+    });
+
+    function showError(msg) {
+      loginError.textContent = msg;
+      loginError.classList.remove("hidden");
+      setTimeout(() => loginError.classList.add("hidden"), 4000);
+    }
+  </script>
+
+</body>
+</html>

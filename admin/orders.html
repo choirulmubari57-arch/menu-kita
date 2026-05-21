@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pesanan — DapurKita Admin</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+
+  <link rel="stylesheet" href="../css/admin.css" />
+</head>
+<body>
+
+  <!-- Sidebar Overlay -->
+  <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+  <div class="app-layout">
+
+    <!-- ---- SIDEBAR ---- -->
+    <aside class="sidebar">
+      <div class="sidebar-brand">
+        <span class="sidebar-brand-icon">🍜</span>
+        <div>
+          <div class="sidebar-brand-name">DapurKita</div>
+          <div class="sidebar-brand-sub">Admin Panel</div>
+        </div>
+      </div>
+
+      <nav class="sidebar-nav">
+        <a href="index.html" class="nav-item">
+          <i class="ph ph-squares-four"></i>
+          Dashboard
+        </a>
+        <a href="orders.html" class="nav-item active">
+          <i class="ph ph-receipt"></i>
+          Pesanan
+        </a>
+        <a href="../index.html" class="nav-item" target="_blank">
+          <i class="ph ph-storefront"></i>
+          Lihat Toko
+        </a>
+      </nav>
+
+      <div class="sidebar-footer">
+        <button class="btn-logout" id="btnLogout">
+          <i class="ph ph-sign-out"></i>
+          Keluar
+        </button>
+      </div>
+    </aside>
+
+    <!-- ---- MAIN CONTENT ---- -->
+    <div class="main-content">
+
+      <!-- Top Bar -->
+      <header class="topbar">
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="hamburger" id="hamburger">
+            <i class="ph ph-list"></i>
+          </button>
+          <span class="topbar-title">Kelola Pesanan</span>
+        </div>
+        <div class="topbar-right">
+          <span class="realtime-dot">Realtime</span>
+          <div class="topbar-user">
+            <div class="topbar-avatar" id="adminAvatar">A</div>
+            <span id="adminEmail">Admin</span>
+          </div>
+        </div>
+      </header>
+
+      <!-- Page Content -->
+      <div class="page-content">
+
+        <!-- Stat mini (bisa disembunyikan) -->
+        <div class="stats-grid" style="margin-bottom:20px;">
+          <div class="stat-card">
+            <div class="stat-icon total"><i class="ph ph-receipt"></i></div>
+            <div>
+              <div class="stat-label">Total</div>
+              <div class="stat-value" id="statTotal">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon new"><i class="ph ph-clock"></i></div>
+            <div>
+              <div class="stat-label">Baru</div>
+              <div class="stat-value" id="statBaru">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon process"><i class="ph ph-spinner"></i></div>
+            <div>
+              <div class="stat-label">Diproses</div>
+              <div class="stat-value" id="statProses">0</div>
+            </div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-icon done"><i class="ph ph-check-circle"></i></div>
+            <div>
+              <div class="stat-label">Selesai</div>
+              <div class="stat-value" id="statSelesai">0</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Orders Section -->
+        <div class="section-header">
+          <h2 class="section-heading">
+            <i class="ph ph-list-bullets"></i>
+            Daftar Pesanan
+          </h2>
+
+          <!-- Filter Tabs -->
+          <div class="filter-tabs">
+            <button class="filter-tab active" data-filter="all">Semua</button>
+            <button class="filter-tab" data-filter="baru">Baru</button>
+            <button class="filter-tab" data-filter="diproses">Diproses</button>
+            <button class="filter-tab" data-filter="selesai">Selesai</button>
+          </div>
+        </div>
+
+        <!-- Loading -->
+        <div class="loading-state" id="loadingState">
+          <div class="spinner"></div>
+          <p>Memuat pesanan...</p>
+        </div>
+
+        <!-- Empty -->
+        <div class="empty-state hidden" id="emptyState">
+          <span class="empty-icon">📭</span>
+          <h3>Belum ada pesanan</h3>
+          <p>Pesanan baru akan muncul di sini secara realtime.</p>
+        </div>
+
+        <!-- Orders List -->
+        <div class="orders-list" id="ordersList"></div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">
+    <i class="ph ph-check-circle"></i>
+    <span>Berhasil</span>
+  </div>
+
+  <script type="module">
+    import { auth } from "../firebase.js";
+    import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+    import { initDashboardStats, initSidebarToggle } from "../js/admin/dashboard.js";
+    import { fetchOrders } from "../js/admin/orders.js";
+
+    // Auth guard
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        window.location.href = "login.html";
+        return;
+      }
+
+      const adminEmail  = document.getElementById("adminEmail");
+      const adminAvatar = document.getElementById("adminAvatar");
+
+      if (adminEmail) adminEmail.textContent = user.email || "Admin";
+      if (adminAvatar) adminAvatar.textContent = (user.email || "A")[0].toUpperCase();
+
+      // Init semua fitur
+      initDashboardStats();
+      initSidebarToggle();
+      fetchOrders();
+    });
+
+    // Logout
+    document.getElementById("btnLogout")?.addEventListener("click", async () => {
+      await signOut(auth);
+      window.location.href = "login.html";
+    });
+  </script>
+
+</body>
+</html>
