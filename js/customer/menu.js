@@ -116,7 +116,7 @@ function fetchMenu() {
   loadingState?.classList.remove("hidden");
 
   const menuRef = collection(db, "menu");
-  const q = query(menuRef);
+  const q = query(menuRef, orderBy("urutan", "asc"));
 
   // onSnapshot = realtime listener, update otomatis jika ada perubahan
   const unsubscribe = onSnapshot(
