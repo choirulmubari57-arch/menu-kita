@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DapurKita — Menu Makanan</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Phosphor Icons -->
+  <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="css/customer.css" />
+</head>
+<body>
+
+  <!-- ===== HEADER ===== -->
+  <header class="site-header">
+    <div class="header-inner container">
+      <div class="brand">
+        <span class="brand-icon">🍜</span>
+        <div>
+          <h1 class="brand-name">DapurKita</h1>
+          <p class="brand-tagline">Masakan Rumahan Terbaik</p>
+        </div>
+      </div>
+
+      <nav class="header-nav">
+        <a href="index.html" class="nav-link active">Menu</a>
+        <a href="pages/cart.html" class="nav-link cart-link">
+          <i class="ph ph-shopping-cart"></i>
+          <span class="cart-badge" id="cartBadge">0</span>
+        </a>
+      </nav>
+    </div>
+
+    <!-- Hero Banner -->
+    <div class="hero">
+      <div class="hero-content container">
+        <p class="hero-eyebrow">Pesan Sekarang, Nikmati Hari Ini</p>
+        <h2 class="hero-title">Pilih menu<br /><em>favoritmu</em></h2>
+        <p class="hero-sub">Semua menu dibuat segar setiap hari dengan bahan pilihan</p>
+      </div>
+      <div class="hero-blob"></div>
+    </div>
+  </header>
+
+  <!-- ===== FILTER KATEGORI ===== -->
+  <section class="category-bar container">
+    <button class="cat-btn active" data-category="all">Semua</button>
+    <button class="cat-btn" data-category="makanan">🍛 Makanan</button>
+    <button class="cat-btn" data-category="minuman">🥤 Minuman</button>
+    <button class="cat-btn" data-category="snack">🍟 Snack</button>
+    <button class="cat-btn" data-category="dessert">🍮 Dessert</button>
+  </section>
+
+  <!-- ===== MENU GRID ===== -->
+  <main class="main container">
+    <!-- Loading state -->
+    <div class="loading-state" id="loadingState">
+      <div class="spinner"></div>
+      <p>Memuat menu...</p>
+    </div>
+
+    <!-- Error state -->
+    <div class="empty-state hidden" id="errorState">
+      <span class="empty-icon">⚠️</span>
+      <h3>Gagal memuat menu</h3>
+      <p>Periksa koneksi internet Anda dan konfigurasi Firebase.</p>
+    </div>
+
+    <!-- Empty state -->
+    <div class="empty-state hidden" id="emptyState">
+      <span class="empty-icon">🍽️</span>
+      <h3>Menu belum tersedia</h3>
+      <p>Menu akan segera hadir. Silakan kembali nanti.</p>
+    </div>
+
+    <!-- Menu grid -->
+    <div class="menu-grid" id="menuGrid"></div>
+  </main>
+
+  <!-- ===== FLOATING CART BUTTON ===== -->
+  <a href="pages/cart.html" class="fab-cart" id="fabCart" aria-label="Lihat Keranjang">
+    <i class="ph ph-shopping-cart-simple"></i>
+    <span class="fab-badge" id="fabBadge">0</span>
+    <span class="fab-label">Keranjang</span>
+  </a>
+
+  <!-- ===== TOAST NOTIFICATION ===== -->
+  <div class="toast" id="toast">
+    <i class="ph ph-check-circle"></i>
+    <span id="toastMsg">Item ditambahkan!</span>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="container">
+      <p>© 2024 DapurKita. Dibuat dengan ❤️</p>
+    </div>
+  </footer>
+
+  <!-- Firebase & Scripts (type="module") -->
+  <script type="module" src="js/customer/menu.js"></script>
+  <script type="module" src="js/customer/cart.js"></script>
+</body>
+</html>
