@@ -71,15 +71,12 @@ function renderOrderCard(order) {
           <span title="${formatDateTime(order.createdAt)}">${timeAgo(order.createdAt)}</span>
         </div>
         ${
-          order.pelanggan?.whatsapp
-            ? `<div class="order-time" style="margin-top:2px;">
-                <i class="ph ph-whatsapp-logo" style="color:#22C55E;"></i>
-                <a href="https://wa.me/${order.pelanggan.whatsapp.replace(/\D/g, '')}"
-                   target="_blank" style="color:#22C55E;">
-                  ${order.pelanggan.whatsapp}
-                </a>
-               </div>`
-            : ""
+          order.pelanggan?.meja
+    ? `<div class="order-time" style="margin-top:2px;">
+        <i class="ph ph-table"></i>
+        Meja ${order.pelanggan.meja}
+       </div>`
+    : ""
         }
       </div>
       <span class="status-badge ${order.status}">
