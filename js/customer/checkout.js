@@ -66,20 +66,16 @@ async function submitOrder(event) {
   const form      = document.getElementById("checkoutForm");
 
   // Ambil data form
-  const nama     = document.getElementById("inputNama")?.value.trim();
-  const whatsapp = document.getElementById("inputWhatsapp")?.value.trim();
-  const catatan  = document.getElementById("inputCatatan")?.value.trim();
+const nama    = document.getElementById("inputNama")?.value.trim();
+const meja    = document.getElementById("inputMeja")?.value;
+const gender  = document.getElementById("inputGender")?.value;
+const catatan = document.getElementById("inputCatatan")?.value.trim();
 
   // Validasi manual
-  if (!nama || !whatsapp) {
-    showFormError("Nama dan nomor WhatsApp wajib diisi!");
-    return;
-  }
-
-  if (!/^[0-9+\-\s]{8,15}$/.test(whatsapp)) {
-    showFormError("Nomor WhatsApp tidak valid!");
-    return;
-  }
+  if (!nama || !meja) {
+  showFormError("Nama dan nomor meja wajib diisi!");
+  return;
+}
 
   const cart = getCart();
   if (cart.length === 0) {
@@ -99,7 +95,8 @@ async function submitOrder(event) {
     const orderData = {
       pelanggan: {
         nama:      nama,
-        whatsapp:  whatsapp,
+        meja:      meja,
+        gender:    gender
       },
       items: cart.map((item) => ({
         id:     item.id,
@@ -123,6 +120,7 @@ async function submitOrder(event) {
     clearCart();
 
     // Redirect ke halaman sukses dengan order ID
+    localStorage.setItem("customerGender", gender);
     window.location.href = `success.html?orderId=${docRef.id}`;
   } catch (error) {
     console.error("Error menyimpan order:", error);
@@ -166,10 +164,35 @@ function showFormError(message) {
 }
 
 // ============================================================
+function initGenderSwitch() {
+  const buttons = document.querySelectorAll(".gender-btn");
+  const input   = document.getElementById("inputGender");
+
+  buttons.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      buttons.forEach((b) => b.classList.remove("active"));
+      btn.classList.add("active");
+
+      input.value = btn.dataset.gender;
+    });
+  });
+}
+function setGenderImage(gender) {
+  const image = document.getElementById("genderImage");
+
+  if (!image) return;
+
+  if (gender === "Perempuan") {
+    image.src = "../assets/female.png";
+  } else {
+    image.src = "../assets/male.png";
+  }
+}
 // INIT
 // ============================================================
 document.addEventListener("DOMContentLoaded", () => {
   renderOrderSummary();
+  initGenderSwitch();
 
   // Pasang event listener form checkout
   const form = document.getElementById("checkoutForm");
