@@ -55,32 +55,43 @@
         <!-- Nama -->
         <div class="form-group">
           <label for="inputNama" class="form-label">
-            Nama Lengkap <span>*</span>
+            Nama  <span>*</span>
           </label>
           <input
             type="text"
             id="inputNama"
             class="form-control"
-            placeholder="Masukkan nama lengkap Anda"
+            placeholder="Masukkan nama untuk memanggil ketika pesanan siap"
             required
-            autocomplete="name"
+            autocomplete="nickname"
           />
         </div>
 
         <!-- WhatsApp -->
-        <div class="form-group">
-          <label for="inputWhatsapp" class="form-label">
-            Nomor WhatsApp <span>*</span>
-          </label>
-          <input
-            type="tel"
-            id="inputWhatsapp"
-            class="form-control"
-            placeholder="Contoh: 08123456789"
-            required
-            autocomplete="tel"
-          />
-        </div>
+        <!-- Nomor Meja -->
+<div class="form-group">
+  <label for="inputMeja" class="form-label">
+    Nomor Meja <span>*</span>
+  </label>
+
+  <select
+    id="inputMeja"
+    class="form-control"
+    required
+  >
+    <option value="">Pilih nomor meja</option>
+    <option value="1">Meja 1</option>
+    <option value="2">Meja 2</option>
+    <option value="3">Meja 3</option>
+    <option value="4">Meja 4</option>
+    <option value="5">Meja 5</option>
+    <option value="6">Meja 6</option>
+    <option value="7">Meja 7</option>
+    <option value="8">Meja 8</option>
+    <option value="9">Meja 9</option>
+    <option value="10">Meja 10</option>
+  </select>
+</div>
 
         <!-- Catatan -->
         <div class="form-group">
@@ -93,7 +104,24 @@
             placeholder="Contoh: tidak pedas, tanpa kecap, dll."
           ></textarea>
         </div>
+<!-- Gender -->
+<div class="form-group">
+  <label class="form-label">
+    Gender
+  </label>
 
+  <div class="gender-switch">
+    <button type="button" class="gender-btn active" data-gender="Laki-laki">
+      Laki-laki
+    </button>
+
+    <button type="button" class="gender-btn" data-gender="Perempuan">
+      Perempuan
+    </button>
+  </div>
+
+  <input type="hidden" id="inputGender" value="Laki-laki" />
+</div>
         <!-- Tombol Submit -->
         <button type="submit" class="btn-submit" id="btnSubmit">
           <i class="ph ph-paper-plane-tilt"></i>
