@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Pesanan Berhasil — DapurKita</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
   <script src="https://unpkg.com/@phosphor-icons/web@2.1.1/src/index.js" defer></script>
@@ -17,13 +17,15 @@
   <main class="success-page">
 
     <!-- Animasi sukses -->
-    <div class="success-anim">🎉</div>
-
+ 
+<div class="success-gender-image">
+  <img id="genderImage" src="" alt="Customer" />
+</div>
     <h1 class="success-title">Pesanan Diterima!</h1>
 
     <p class="success-sub">
       Terima kasih telah memesan di DapurKita.<br />
-      Pesananmu sedang kami proses. Kami akan segera menghubungimu via WhatsApp.
+      Pesananmu sedang kami proses. Kami akan segera mengantarkam pesananmu.
     </p>
 
     <!-- Order ID -->
@@ -54,6 +56,22 @@
       displayEl.textContent = "—";
     }
   </script>
+<script>
+  function setGenderImage(gender) {
+    const image = document.getElementById("genderImage");
 
+    if (!image) return;
+
+    if (gender === "Perempuan") {
+      image.src = "../assets/female.png";
+    } else {
+      image.src = "../assets/male.png";
+    }
+  }
+
+  const gender = localStorage.getItem("customerGender");
+
+  setGenderImage(gender);
+</script>
 </body>
 </html>
