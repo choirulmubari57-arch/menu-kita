@@ -1024,8 +1024,8 @@ textarea.form-control {
 }
 
 .success-gender-image img {
-  width: 220px;
-  height: 300px;
+  width: 100%;
+  height: auto;
 
   object-fit: cover;
 
